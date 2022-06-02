@@ -1,0 +1,37 @@
+{
+  "env": {
+    "ENV": {
+      "description": "Setting this to True will enable env variables.",
+      "value": "True"
+    },
+    "API_ID": {
+      "description": "Get Api id :-  https://my.telegram.org/auth",
+      "required": true,
+      "value": ""
+    },
+    "API_HASH": {
+      "description": "Get Api hash from :-  https://my.telegram.org/auth",
+      "required": true,
+      "value": ""
+    },
+    "STRING_SESSION": {
+      "description": "Gen your telethon string session",
+      "required": true,
+      "value": ""
+    },
+    "URL": {
+      "description": "The Heroku App URL similar to https://<appname>.herokuapp.com/?cc=",
+      "required": true,
+      "value": ""
+    }
+  },
+  "stack": "heroku-20",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku/php"
+    }
+  ]
+}
