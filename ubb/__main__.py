@@ -1,20 +1,23 @@
 import importlib
 import sys
+import asyncio
 
-from ubb import LOGS, Ubot
+from ubb import Ubot
 from ubb.modules import ALL_MODULES
 
-
-Ubot.start()
 
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("ubb.modules." + module_name)
 
-LOGS.info("Your Bot is alive! Test it by typing .alive on any chat."
-          "if you need assistance, head to https://t.me/xbinner")
-LOGS.info("Your Bot Version is 1.0")
 
-if len(sys.argv) not in (1, 3, 4):
-    Ubot.disconnect()
-else:
-    Ubot.run_until_disconnected()
+async def main():
+    async with Ubot:
+        # Run the client until Ctrl+C is pressed, or the client disconnects
+        print('Your bot is alive .alive to check\n'
+              '.help to check command list\n'
+              '(Press Ctrl+C to stop this)')
+        await Ubot.run_until_disconnected()
+ 
+
+if __name__ == '__main__':
+    asyncio.run(main())
