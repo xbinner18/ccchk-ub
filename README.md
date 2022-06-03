@@ -14,7 +14,7 @@ If you got api id n hash then lets proceed for session.
 ```
 fork this repo login to your heroku ac create new app.
 connect fork of this repo to heroku and deploy
-after deployment finish click on setting icon select console.
+after deployment finish click on more option select run console.
 you will get bash interface run sessionmaker file by cmd
 'python3 sessionmaker.py'
 put api-id hit enter
@@ -24,13 +24,18 @@ if you have set 2factor auth put your pwd and finnally u will get string session
 click on save session copy that session we gonna use that in env varable of STRING_SESSION
 ```
 ___
-You can also use termux or replit to gen session
+## By Termux StringSession:
 ```
-git clone https://github.com/Xbinner18/ccchk-ub.git
+git clone https://github.com/Xbinner18/ccchk-ub.git (clone this repo)
+
+1- pkg install openssl (optional if httpclient give errors)
+
+2- pip install --upgrade pip (if pip not updated already)
+
+3- pip3 install telethon
+
+4- python3 ccchk-ub/sessionmaker.py
 ```
- ```
- pip install --upgrade pip && pip3 install -r requirements.txt && python3 sessionmaker.py
- ```
 • rest steps are same as above just give what it ask
 ___
 
@@ -54,5 +59,6 @@ Make sure to use Proxies in php file for better response.
 # Credits
 •
 [Xbinner](https://telegram.dog/Xbinner) [xbinner18](https://github.com/xbinner18)
+- Special thanks to [Paperplane](https://github.com/RaphielGang/Telegram-Paperplane)
 - Thanks to [Lonami](https://github.com/Lonami) for telethon Library.
 - Thanks to [tomchristie](https://github.com/tomchristie) for httpx Library.
