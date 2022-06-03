@@ -7,6 +7,9 @@ from ubb import Ubot, URL
 @Ubot.on(events.NewMessage(pattern=r'\.st'))
 async def st_chk(event):
     CC = event.message.message[len('.st '):]
+    reply_msg = await event.get_reply_message()
+    if reply_msg:
+        CC = reply_msg.message
     VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '65', '6011')
     if not CC.startswith(VALID):
         return await event.edit('**Invalid CC Type**')
