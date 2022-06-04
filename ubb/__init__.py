@@ -13,6 +13,7 @@ ENV = bool(os.getenv('ENV', True))
 API_ID = int(os.getenv('API_ID', None))
 API_HASH = os.getenv('API_HASH', None)
 URL = os.getenv('URL', None)
+DUMP_ID = os.getenv('DUMP_ID', None)
 STRING_SESSION = os.getenv('STRING_SESSION', None)
 
 Ubot = TelegramClient(StringSession(STRING_SESSION),
