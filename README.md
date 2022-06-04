@@ -1,4 +1,4 @@
-# CC CHECKER USERBOT
+# CC CHECKER & SCRAPPER USERBOT
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?)
 
@@ -7,6 +7,7 @@
 ```
  • SESSION OF TELETHON (requires your tg ac auth)
  • API_ID & APIHASH (from 'my.telegram.org')
+ • DUMP_ID = CHANNEL ID WHERE U WANT TO SEND SCRAPPED CARDS.
  • URL Var of env value should be https://<appnameofheroku>.herokuapp.com/?cc= to point php file
  • If you set it correct userbot will able to make http calls at correct url to get response.
 ```
