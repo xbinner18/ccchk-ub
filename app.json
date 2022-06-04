@@ -19,6 +19,11 @@
       "required": true,
       "value": ""
     },
+    "DUMP_ID": {
+      "description": "Channelid where u want to drop ccs",
+      "required": true,
+      "value": ""
+    },
     "URL": {
       "description": "The Heroku App URL similar to https://<appname>.herokuapp.com/?cc=",
       "required": true,
