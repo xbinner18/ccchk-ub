@@ -6,6 +6,8 @@ from ubb import Ubot, DUMP_ID
 @Ubot.on(events.NewMessage())  # pylint:disable=E0602
 async def check_incoming_messages(event):
     entities = event.message.entities
+    if event.is_private:
+        return
     is_cc = False
     if entities:
         for entity in entities:
