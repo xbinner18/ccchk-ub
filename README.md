@@ -8,8 +8,7 @@
  • SESSION OF TELETHON (requires your tg ac auth)
  • API_ID & APIHASH (from 'my.telegram.org')
  • DUMP_ID = CHANNEL ID WHERE U WANT TO SEND SCRAPPED CARDS.
- • URL Var of env value should be https://<appnameofheroku>.herokuapp.com/?cc= to point php file
- • If you set it correct userbot will able to make http calls at correct url to get response.
+ • URL Var of env value should be https://<appnameofheroku>.herokuapp.com/.
 ```
 If you got api id n hash then lets proceed for session.
 ```
@@ -44,7 +43,7 @@ ___
 php over py for checker apis so they can understand and update by themselve thats why.~~
 
 ## Note 
-Make sure to use Proxies in php file for better response.
+Make sure to use Proxies for sending post requests for better result.
 
 
 ```diff
