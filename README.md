@@ -41,7 +41,7 @@ git clone https://github.com/Xbinner18/ccchk-ub.git (clone this repo)
 ___
 
 ~~Why did i used php? cause many peoples arent familiar with py i mean they prefer
-php over py for checker apis so they can understand and update by themselve thats why.
+php over py for checker apis so they can understand and update by themselve thats why.~~
 
 ## Note 
 Make sure to use Proxies in php file for better response.
