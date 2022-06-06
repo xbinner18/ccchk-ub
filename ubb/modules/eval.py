@@ -1,6 +1,5 @@
 import io
 import sys
-import os
 
 from telethon import events
 from ubb import Ubot
@@ -52,7 +51,7 @@ async def pyrun(event):
     else:
         evaluation = "Success"
 
-    final_output = f'**EVAL**:`{cmd}` \n\n **OUTPUT**: \n`{evaluation}` \n'
+    final_output = f'**EVAL**: `{cmd}`\n\n**OUTPUT**: \n`{evaluation}`'
 
     if len(final_output) > 4096:
         with io.BytesIO(str.encode(final_output)) as out_file:
@@ -65,7 +64,6 @@ async def pyrun(event):
                 caption=cmd,
                 reply_to=reply_to_id
             )
-            os.remove(out_file)
             await event.delete()
     else:
         await event.edit(final_output)
