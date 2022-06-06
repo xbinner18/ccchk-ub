@@ -65,7 +65,7 @@ async def pyrun(event):
                 caption=cmd,
                 reply_to=reply_to_id
             )
-            os.remove(out_file.name)
+            os.remove(out_file)
             await event.delete()
     else:
         await event.edit(final_output)
