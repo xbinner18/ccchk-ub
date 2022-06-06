@@ -91,7 +91,7 @@ async def st_charge(event):
 
         if 'security code is' in req.text:
             await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}`\n'+
+                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
                              f'**Msg**==> `{msg}`\n'+
                              f'**Brand**==> {Brand}\n'+
                              f'**Country**==> {Country}\n'+
@@ -101,7 +101,7 @@ async def st_charge(event):
 
         elif "true" in req.text:
             await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC**==> `{ccn}`\n'+
+                             f'**CC**==> `{ccn}|{mm}|{yy}|{cvv}`\n'+
                              f'**Msg**==> `{msg}`\n'+
                              f'**Brand**==> {Brand}\n'+
                              f'**Country**==> {Country}\n'+
@@ -110,7 +110,7 @@ async def st_charge(event):
                              f'**Userbot-By** ~ @Xbinner')
         else:
             await event.edit(f'❌>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}`\n'+
+                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
                              f'**Msg**==> `{msg}`\n'+
                              f'**Brand**==> {Brand}\n'+
                              f'**Country**==> {Country}\n'+
