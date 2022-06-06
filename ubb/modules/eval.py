@@ -57,7 +57,7 @@ async def pyrun(event):
     if len(final_output) > 4096:
         with io.BytesIO(str.encode(final_output)) as out_file:
             out_file.name = "eval.text"
-            await bot.send_file(
+            await Ubot.send_file(
                 event.chat_id,
                 out_file,
                 force_document=True,
