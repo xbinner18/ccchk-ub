@@ -20,7 +20,7 @@ async def st_charge(event):
     mm = x[1]
     yy = x[2]
     cvv = x[3]
-    VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '65', '6011')
+    VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '64', '65', '6011')
     if not ccn.startswith(VALID):
         return await event.edit('**Invalid CC Type**')
     start = time.time()
@@ -30,7 +30,6 @@ async def st_charge(event):
     Last = ''.join(random.choice(letters) for i in range(6))
     Name = f'{First}+{Last}'
     Email = f'{First}.{Last}@gmail.com'
-    VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '65', '6011')
 
     async with httpx.AsyncClient() as client:
         headers = {
