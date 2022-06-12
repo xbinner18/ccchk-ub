@@ -87,32 +87,21 @@ async def st_charge(event):
                                 data=load, headers=header, cookies=cookie)
         msg = req.json()["msg"]
         end = time.time()
-
+        
+        MESSAGE = lambda symbol: f'''
+        {symbol}>**STRIPE 1$**
+        **CC** `{ccn}|{mm}|{yy}|{cvv}`
+        **Msg**==> `{msg}`
+        **Brand**==> {Brand}
+        **Country**==> {Country}
+        **Time-Stamp** ==> {datetime.now()}
+        **Elapsed Time** ==> {end-start}
+        **Userbot-By** ~ @Xbinner
+        '''
         if 'security code is' in req.text:
-            await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            await event.edit(MESSAGE('✅'))
 
         elif "true" in req.text:
-            await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC**==> `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            await event.edit(MESSAGE('✅'))
         else:
-            await event.edit(f'❌>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            await event.edit(MESSAGE('❌'))
