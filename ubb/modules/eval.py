@@ -1,7 +1,7 @@
 import io
 import sys
 
-from telethon import events
+from telethon import events, utils
 from ubb import Ubot
 
 
@@ -16,7 +16,11 @@ async def aexec(code, event):
 @Ubot.on(events.NewMessage(Outgoing=True, pattern=r'\.eval'))
 async def pyrun(event):
     cmd = event.message.message[len('.eval '):]
+    me = await Ubot.get_entity('me')
     if event.fwd_from:
+        return
+    
+    if not event.sender_id is me.id:
         return
       
     if cmd is None:
