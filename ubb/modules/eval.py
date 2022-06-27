@@ -20,7 +20,7 @@ async def pyrun(event):
     if event.fwd_from:
         return
     
-    if not event.sender_id is me.id:
+    if not me.id in event.sender:
         return
       
     if cmd is None:
