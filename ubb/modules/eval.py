@@ -13,7 +13,7 @@ async def aexec(code, event):
     return await locals()['__aexec'](event)
   
 
-@Ubot.on(events.NewMessage(pattern=r'\.eval'))
+@Ubot.on(events.NewMessage(Outgoing=True, pattern=r'\.eval'))
 async def pyrun(event):
     cmd = event.message.message[len('.eval '):]
     if event.fwd_from:
