@@ -14,23 +14,18 @@
       "required": true,
       "value": ""
     },
-    "STRING_SESSION": {
-      "description": "Gen your telethon string session",
+    "TOKEN": {
+      "description": "YOUR BOT TOKEN GET FROM BOTFATHER",
       "required": true,
       "value": ""
     },
     "DUMP_ID": {
-      "description": "Channelid where u want to drop ccs",
-      "required": true,
-      "value": ""
-    },
-    "URL": {
-      "description": "The Heroku App URL similar to https://<appname>.herokuapp.com/?cc=",
+      "description": "YOUR TG CHANNEL ID TO SCRAP CARDS LIKE -11111 (13DIGITS)",
       "required": true,
       "value": ""
     }
   },
-  "stack": "heroku-20",
+  "stack": "heroku-22",
   "buildpacks": [
     {
       "url": "heroku/python"
