@@ -1,4 +1,5 @@
 import asyncio
+import re
 from telethon import events, types, errors
 from ubb import Ubot, DUMP_ID
 
@@ -17,9 +18,10 @@ async def check_incoming_messages(event):
                 is_cc = True
             if is_cc:
                 try:
+                    cc, mm, yy, cvv = re.findall(r'\d+', m)
                     await asyncio.sleep(3)
-                    await Ubot.send_message(DUMP_ID, m)
+                    await Ubot.send_message(DUMP_ID, f'{cc}|{mm}|{yy}|{cvv}')
                 except errors.FloodWaitError as e:
                     print(f'flood wait: {e.seconds}')
                     await asyncio.sleep(e.seconds)
-                    await Ubot.send_message(DUMP_ID, m)
+                    await Ubot.send_message(DUMP_ID, f'{cc}|{mm}|{yy}|{cvv}')

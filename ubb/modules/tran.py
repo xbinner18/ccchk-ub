@@ -3,12 +3,12 @@ from telethon import events
 from ubb import Ubot
 
 
-@Ubot.on(events.NewMessage(pattern=r'\.tr'))
+@Ubot.on(events.NewMessage(pattern=r'[!/]tr'))
 async def translate(event):
     if not event.reply_to:
-        return await event.edit('Reply .tr {code}')
+        return await event.edit('Reply /tr {code}')
     r = await event.get_reply_message()
-    co = event.message.message[len('.tr '):]
+    co = event.message.message[len('/tr '):]
     try:
         res = await http.get(f'https://translate.google.com/'+
                              f'translate_a/'+
@@ -21,6 +21,6 @@ async def translate(event):
 Translated from **{so}** to **{co}**
 `{result[:-5]}`
 '''
-        await event.edit(msg)
+        await event.reply(msg)
     except Exception as e:
-        await event.edit(f'Failed error: `{e}`')
+        await event.reply(f'Failed error: `{e}`')

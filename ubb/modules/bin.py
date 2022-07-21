@@ -1,13 +1,12 @@
-import re
-
 from ..func import http
 from telethon import events
 from ubb import Ubot
+import re
 
 
-@Ubot.on(events.NewMessage(pattern=r'\.bin'))
+@Ubot.on(events.NewMessage(pattern=r'[!/]bin'))
 async def srbin(event):
-    BIN = event.message.message[len('.bin '):]
+    BIN = event.message.message[len('/bin '):]
     reply_msg = await event.get_reply_message()
     if reply_msg:
         BIN = reply_msg.message
@@ -22,10 +21,9 @@ Type⇢ **{res["type"]}**
 Level⇢ **{res["level"]}**
 Bank⇢ **{res["bank"]}**
 Phone⇢ **{res["phone"]}**
-Flag⇢ **{res["flag"]}**
 Currency⇢ **{res["currency"]}**
-Country⇢ **{res["country"]}({res["code"]})**
+Country⇢ **{res["country"]}({res["code"]}) | {res["flag"]}**
 '''
-        await event.edit(msg)
-    except:
-        await event.edit('Failed to parse bin data from api')
+        await event.reply(msg)
+    except Exception as e:
+        await event.reply(e)

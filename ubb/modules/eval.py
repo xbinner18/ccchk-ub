@@ -13,18 +13,17 @@ async def aexec(code, event):
     return await locals()['__aexec'](event)
   
 
-@Ubot.on(events.NewMessage(Outgoing=True, pattern=r'\.eval'))
+@Ubot.on(events.NewMessage(pattern=r'[!/]eval'))
 async def pyrun(event):
-    cmd = event.message.message[len('.eval '):]
+    cmd = event.message.message[len('/eval '):]
     me = await Ubot.get_me()
     if event.fwd_from:
         return
-    
     if event.sender_id != me.id:
         return
       
     if cmd is None:
-      return await event.edit('**NO CODE PASSED TO RUN**')
+      return await event.reply('`What im gonna do`')
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
@@ -70,4 +69,4 @@ async def pyrun(event):
             )
             await event.delete()
     else:
-        await event.edit(final_output)
+        await event.reply(final_output)

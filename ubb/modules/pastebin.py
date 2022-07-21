@@ -6,14 +6,14 @@ from ..func import http
 from ubb import Ubot
 
 
-@Ubot.on(events.NewMessage(pattern=r'\.paste'))
+@Ubot.on(events.NewMessage(pattern=r'[!/]paste$'))
 async def paste_bin(event):
     if not event.reply_to:
-        return await event.edit('Reply .paste Message|File')
+        return await event.reply('Reply /paste Message|File')
     r = await event.get_reply_message()
     
     if not r.media and not r.message:
-        return await event.edit('Is replied msg is text or file?')
+        return await event.reply('Is replied msg is text or file?')
 
     
     if r.media != None:
@@ -25,7 +25,7 @@ async def paste_bin(event):
     try:
         res = await http.post('https://hastebin.skyra.pw/documents', pdata=content)
         msg = f'**Pasted**: https://hastebin.skyra.pw/{res.json()["key"]}'
-        await event.edit(msg)
+        await event.reply(msg)
     except Exception as e:
         msg = f"**Failed to paste**: `{e}`"
-        await event.edit(msg)  
+        await event.reply(msg)  
