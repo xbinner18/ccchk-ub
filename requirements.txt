@@ -1,3 +1,5 @@
 telethon
 cryptg
 httpx
+emoji-country-flag
+bs4
