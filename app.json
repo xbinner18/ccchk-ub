@@ -1,9 +1,5 @@
 {
   "env": {
-    "ENV": {
-      "description": "Setting this to True will enable env variables.",
-      "value": "True"
-    },
     "API_ID": {
       "description": "Get Api id :-  https://my.telegram.org/auth",
       "required": true,
@@ -20,17 +16,12 @@
       "value": ""
     },
     "DUMP_ID": {
-      "description": "Channelid where u want to drop ccs",
-      "required": true,
-      "value": ""
-    },
-    "URL": {
-      "description": "The Heroku App URL similar to https://<appname>.herokuapp.com/?cc=",
+      "description": "Channel_id where u want to send ccs",
       "required": true,
       "value": ""
     }
   },
-  "stack": "heroku-20",
+  "stack": "heroku-22",
   "buildpacks": [
     {
       "url": "heroku/python"
