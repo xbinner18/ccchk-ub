@@ -1,6 +1,5 @@
 import re
 import asyncio
-import flag
 from telethon import events, types, errors
 from ..func import http
 from bs4 import BeautifulSoup as bs
@@ -15,7 +14,7 @@ async def check_incoming_messages(event):
     entities = event.message.entities
     prefixes = ['?', '/', '.', '!']
     m = event.message.message
-    if m.startswith(tuple(prefixes)) or len(m) < 25 or event.is_private:
+    if m.startswith(tuple(prefixes)) or len(m) < 25 or event.is_private or len(m) > 600:
         return
     is_cc = False
     if entities:
@@ -24,20 +23,18 @@ async def check_incoming_messages(event):
                 is_cc = True
             if is_cc:
                 try:
-                    Bin = re.sub(r'[^0-9]', '', m)
-                    r = await http.get(f'https://bincheck.io/details/{Bin[:6]}')
+                    x = re.findall(r'\d+', m)
+                    if len(x) > 10:
+                        return
+                    BIN = re.search(r'\d{15,16}', m)[0][:6]
+                    r = await http.get(f'https://bins.ws/search?bins={BIN}')
                     soup = bs(r, features='html.parser')
-                    k = soup.findAll('td', width="65%")
+                    k = soup.find("div", {"class": "page"})
                     MSG = f"""
 {m}
 
-BIN: {Bin[:6]}
-INFO
-{k[0].text}
-{k[1].text.strip()}|{k[2].text.strip()}
-BANK: {k[3].text.strip()}
-{flag.flag(k[8].text)}|{k[10].text.strip()}|{k[8].text.strip()}
-COUNTRY: {k[6].text.strip()}"""
+{k.get_text()[62:]}
+"""
                     await asyncio.sleep(3)
                     await Ubot.send_message(DUMP_ID, MSG)
                 except errors.FloodWaitError as e:
