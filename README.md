@@ -8,7 +8,6 @@
  • SESSION OF TELETHON (requires your tg ac auth)
  • API_ID & APIHASH (from 'my.telegram.org')
  • DUMP_ID = CHANNEL ID WHERE U WANT TO SEND SCRAPPED CARDS.
- • URL Var of env value should be https://<appnameofheroku>.herokuapp.com/.
 ```
 If you got api id n hash then lets proceed for session.
 ```
@@ -58,7 +57,7 @@ Make sure to use Proxies for sending post requests for better result.
 
 # Credits
 •
-[Xbinner](https://telegram.dog/Xbinner) [xbinner18](https://github.com/xbinner18)
-- Special thanks to [Paperplane](https://github.com/RaphielGang/Telegram-Paperplane)
+[Xbinner](https://telegram.dog/Xbinner69) [xbinner18](https://github.com/xbinner18)
+- Special thanks to [Paperplane](https://github.com/RaphielGang/Telegram-Paperplane) for structure
 - Thanks to [Lonami](https://github.com/Lonami) for telethon Library.
 - Thanks to [tomchristie](https://github.com/tomchristie) for httpx Library.
