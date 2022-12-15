@@ -22,11 +22,12 @@ async def helper(event):
         '''
 **Dont Fear help is here!**
 • .alive <chk ubot is up or not>.
-• .st <cc|mm|yy|csc> to chk cards.
+• .st <cc|mm|yy|csc> to chk cards.[SiteDead]
 • .paste <to unpack openbullet/storm configs or paste codes> .
 • .tr <translate replied msg> to eng ex reply .tr en
 • .ip <chk ip fraud score>
 • .bin <chk bininfo>
+• .scrape <channelusername> 100
 • .eval <py codes>
 '''
     )
