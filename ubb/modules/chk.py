@@ -26,8 +26,8 @@ async def st_charge(event):
     start = time.time()
 
     letters = string.ascii_lowercase
-    First = ''.join(random.choice(letters) for i in range(6))
-    Last = ''.join(random.choice(letters) for i in range(6))
+    First = ''.join(random.choice(letters) for _ in range(6))
+    Last = ''.join(random.choice(letters) for _ in range(6))
     Name = f'{First}+{Last}'
     Email = f'{First}.{Last}@gmail.com'
 
@@ -89,30 +89,42 @@ async def st_charge(event):
         end = time.time()
 
         if 'security code is' in req.text:
-            await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            await event.edit(
+                (
+                    f'✅>**STRIPE 1$**\n'
+                    + f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'
+                    + f'**Msg**==> `{msg}`\n'
+                    + f'**Brand**==> {Brand}\n'
+                    + f'**Country**==> {Country}\n'
+                    + f'**Time-Stamp** ==> {datetime.now()}\n'
+                    + f'**Time-Took** ==> {end-start}\n'
+                    + '**Userbot-By** ~ @Xbinner'
+                )
+            )
 
         elif "true" in req.text:
-            await event.edit(f'✅>**STRIPE 1$**\n'+
-                             f'**CC**==> `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            await event.edit(
+                (
+                    f'✅>**STRIPE 1$**\n'
+                    + f'**CC**==> `{ccn}|{mm}|{yy}|{cvv}`\n'
+                    + f'**Msg**==> `{msg}`\n'
+                    + f'**Brand**==> {Brand}\n'
+                    + f'**Country**==> {Country}\n'
+                    + f'**Time-Stamp** ==> {datetime.now()}\n'
+                    + f'**Time-Took** ==> {end-start}\n'
+                    + '**Userbot-By** ~ @Xbinner'
+                )
+            )
         else:
-            await event.edit(f'❌>**STRIPE 1$**\n'+
-                             f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'+
-                             f'**Msg**==> `{msg}`\n'+
-                             f'**Brand**==> {Brand}\n'+
-                             f'**Country**==> {Country}\n'+
-                             f'**Time-Stamp** ==> {datetime.now()}\n'+
-                             f'**Time-Took** ==> {end-start}\n'+
-                             f'**Userbot-By** ~ @Xbinner')
+            await event.edit(
+                (
+                    f'❌>**STRIPE 1$**\n'
+                    + f'**CC** `{ccn}|{mm}|{yy}|{cvv}`\n'
+                    + f'**Msg**==> `{msg}`\n'
+                    + f'**Brand**==> {Brand}\n'
+                    + f'**Country**==> {Country}\n'
+                    + f'**Time-Stamp** ==> {datetime.now()}\n'
+                    + f'**Time-Took** ==> {end-start}\n'
+                    + '**Userbot-By** ~ @Xbinner'
+                )
+            )

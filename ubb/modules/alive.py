@@ -18,7 +18,8 @@ async def amialive(event):
     
 @Ubot.on(events.NewMessage(pattern=r'\.help'))
 async def helper(event):
-    await event.edit(f'''
+    await event.edit(
+        '''
 **Dont Fear help is here!**
 • .alive <chk ubot is up or not>.
 • .st <cc|mm|yy|csc> to chk cards.
@@ -27,4 +28,5 @@ async def helper(event):
 • .ip <chk ip fraud score>
 • .bin <chk bininfo>
 • .eval <py codes>
-''')
+'''
+    )

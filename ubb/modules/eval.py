@@ -7,8 +7,10 @@ from ubb import Ubot
 
 async def aexec(code, event):
     exec(
-        f'async def __aexec(event): ' +
-        ''.join(f'\n {l}' for l in code.split('\n'))
+        (
+            'async def __aexec(event): '
+            + ''.join(f'\n {l}' for l in code.split('\n'))
+        )
     )
     return await locals()['__aexec'](event)
   
@@ -19,16 +21,13 @@ async def pyrun(event):
     me = await Ubot.get_me()
     if event.fwd_from:
         return
-    
+
     if event.sender_id != me.id:
         return
-      
+
     if cmd is None:
       return await event.edit('**NO CODE PASSED TO RUN**')
-    reply_to_id = event.message.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
-
+    reply_to_id = event.reply_to_msg_id or event.message.id
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()
