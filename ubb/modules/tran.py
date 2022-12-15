@@ -10,10 +10,12 @@ async def translate(event):
     r = await event.get_reply_message()
     co = event.message.message[len('.tr '):]
     try:
-        res = await http.get(f'https://translate.google.com/'+
-                             f'translate_a/'+
-                             f't?client=dict-chrome-ex&sl=auto&'+
-                             f'tl={co}&q={r.message}&tbb=1&ie=UTF-8&oe=UTF-8')
+        res = await http.get(
+            (
+                f'https://translate.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&'
+                + f'tl={co}&q={r.message}&tbb=1&ie=UTF-8&oe=UTF-8'
+            )
+        )
         result = res.text.strip('[""]')
         so = result[-2:]
         msg = f'''
