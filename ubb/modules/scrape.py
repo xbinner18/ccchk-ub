@@ -28,20 +28,21 @@ async def scrapper(event):
     cards = re.findall(r"message='([^']+)", posts.stringify())
     RAWCC = []
     for cc in cards:
-        x = re.findall('[0-9]+', cc)
-        cn = x[0]
-        mm = x[1]
-        yy = x[2]
-        cvv = x[3]
-        if str(mm).startswith('2'):
-            mm, yy = yy, mm
-        if len(mm) >= 3: 
-            mm, yy, cvv = yy, cvv, mm
-        value = f'{cn}|{mm}|{yy}|{cvv}\n'
-        regex = re.compile(r'((?:(^(4|5|6)[0-9]{15,15})|(^3[0-9]{14,14}))\|[0-9]{1,2}\|[0-9]{2,4}\|[0-9]{3,4})')
-        if regex.match(value):
-            RAWCC.append(value) # append valid format ccs!
-        else:
+        try:
+            x = re.findall('[0-9]+', cc)
+            cn = x[0]
+            mm = x[1]
+            yy = x[2]
+            cvv = x[3]
+            if str(mm).startswith('2'):
+                mm, yy = yy, mm
+            if len(mm) >= 3: 
+                mm, yy, cvv = yy, cvv, mm
+            value = f'{cn}|{mm}|{yy}|{cvv}\n'
+            regex = re.compile(r'((?:(^(4|5|6)[0-9]{15,15})|(^3[0-9]{14,14}))\|[0-9]{1,2}\|[0-9]{2,4}\|[0-9]{3,4})')
+            if regex.match(value):
+                RAWCC.append(value)  # append valid format ccs!
+        except IndexError:
             pass
         
     CLEAN = set(RAWCC) # rm duplicates from list
@@ -50,7 +51,7 @@ async def scrapper(event):
             f.write(f'{CC}')
     await Ubot.send_file(event.peer_id,
                          'Scrapped.txt', 
-                         caption=f'**CC Scrapper\nNo of cards: {len(CLEAN)}\nUserBotBy-» @Xbinner2**',
+                         caption=f'**CC Scrapper\nNo. of cards from {target}: {len(CLEAN)}\nUserBotBy-» @Xbinner2**',
                          force_document=True)
     os.remove('Scrapped.txt') # rm old file to prevent duplicates
     
