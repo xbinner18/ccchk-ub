@@ -11,9 +11,11 @@ from ubb import Ubot, DUMP_ID
 
 @Ubot.on(events.NewMessage(pattern=r'\.scrape'))
 async def scrapper(event):
-    # use .scrape {channel_id} 100
+    # use .scrape [channel_id or username] 100
     # default limit 100 u can scrape below 100 at a time
     target, limit = event.message.message[len('.scrape '):].split()
+    if str(target).startswith('-1'):
+        target = int(target)
     posts = await Ubot(
         GetHistoryRequest(
             peer=target, 
@@ -42,18 +44,18 @@ async def scrapper(event):
             regex = re.compile(r'((?:(^(4|5|6)[0-9]{15,15})|(^3[0-9]{14,14}))\|[0-9]{1,2}\|[0-9]{2,4}\|[0-9]{3,4})')
             if regex.match(value):
                 RAWCC.append(value)  # append valid format ccs!
-        except IndexError:
+        except:
             pass
         
     CLEAN = set(RAWCC) # rm duplicates from list
     for CC in CLEAN:
-        with io.open('Scrapped.txt', 'a') as f:
-            f.write(f'{CC}')
+        with io.open(f'{target}.txt', 'a') as f:
+            f.write(CC)
     await Ubot.send_file(event.peer_id,
-                         'Scrapped.txt', 
+                         f'{target}.txt', 
                          caption=f'**CC Scrapper\nNo. of cards from {target}: {len(CLEAN)}\nUserBotBy-» @Xbinner2**',
                          force_document=True)
-    os.remove('Scrapped.txt') # rm old file to prevent duplicates
+    os.remove(f'{target}.txt') # rm old file to prevent duplicates
     
     
 @Ubot.on(events.NewMessage())  # pylint:disable=E0602
