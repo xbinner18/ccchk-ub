@@ -4,6 +4,7 @@ import os
 import io
 
 from telethon import events, types, errors
+from telethon.tl.functions.messages import GetHistoryRequest
 from ..func import http
 from bs4 import BeautifulSoup as bs
 from ubb import Ubot, DUMP_ID
