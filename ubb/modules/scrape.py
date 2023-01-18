@@ -41,6 +41,10 @@ async def scrapper(event):
                 mm, yy = yy, mm
             if len(mm) >= 3: 
                 mm, yy, cvv = yy, cvv, mm
+            if len(mm) == 1:
+                mm = f'0{mm}'
+            if len(yy) == 2:
+                yy = f'20{yy}'
             value = f'{cn}|{mm}|{yy}|{cvv}\n'
             regex = re.compile(r'((?:(^(4|5|6)[0-9]{15,15})|(^3[0-9]{14,14}))\|[0-9]{1,2}\|[0-9]{2,4}\|[0-9]{3,4})')
             if regex.match(value):
