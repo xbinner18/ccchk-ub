@@ -1,6 +1,5 @@
 telethon
 cryptg
 httpx[http2]
-emoji-country-flag
 bs4
 PyYAML
