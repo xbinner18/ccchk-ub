@@ -8,6 +8,12 @@ from telethon.tl.functions.messages import GetHistoryRequest
 from ..func import http
 from bs4 import BeautifulSoup as bs
 from ubb import Ubot, DUMP_ID
+from datetime import datetime
+
+
+d = datetime.now()
+m = d.strftime("%m")
+y = d.strftime("%Y")
 
 
 @Ubot.on(events.NewMessage(pattern=r'\.scrape'))
@@ -45,6 +51,8 @@ async def scrapper(event):
                 mm = f'0{mm}'
             if len(yy) == 2:
                 yy = f'20{yy}'
+            if mm+yy < m+y:
+                pass
             value = f'{cn}|{mm}|{yy}|{cvv}\n'
             regex = re.compile(r'((?:(^(4|5|6)[0-9]{15,15})|(^3[0-9]{14,14}))\|[0-9]{1,2}\|[0-9]{2,4}\|[0-9]{3,4})')
             if regex.match(value):
