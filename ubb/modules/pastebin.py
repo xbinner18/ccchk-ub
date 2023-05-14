@@ -24,7 +24,7 @@ async def paste_bin(event):
         content = str(r.message)
     try:
         res = await http.post('https://hastebin.skyra.pw/documents', pdata=content)
-        msg = f'**Pasted**: https://hastebin.skyra.pw/{res.json()["key"]}'
+        msg = f'**Pasted**: https://hastebin.skyra.pw/raw/{res.json()["key"]}'
         await event.edit(msg)
     except Exception as e:
         msg = f"**Failed to paste**: `{e}`"
