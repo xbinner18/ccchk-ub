@@ -3,4 +3,3 @@ cryptg
 httpx[http2]
 bs4
 PyYAML
-flask
