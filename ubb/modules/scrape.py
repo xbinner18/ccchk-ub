@@ -16,6 +16,53 @@ m = d.strftime("%m")
 y = d.strftime("%Y")
 
 
+@Ubot.on(events.NewMessage(pattern=r'\.xcrap'))
+async def xcrapper(event):
+    target = event.message.message[len('.xcrap '):]
+    CCS = []
+    LIST = []
+    if str(target).startswith('-1'):
+        target = int(target)
+    async for message in Ubot.iter_messages(target):
+        try:
+            msgs = message.text
+            CCS.append(msgs)
+        except:
+            pass
+    for CC in set(CCS):
+        try:
+            i = re.findall('[0-9]+', CC)
+            cc = i[0]
+            mm = i[1]
+            yy = i[2]
+            cvv = i[3]
+            if len(mm) >= 3: 
+                mm, yy, cvv = yy, cvv, mm
+            if str(mm).startswith('2'):
+                mm, yy = yy, mm
+            if len(mm) == 1:
+                mm = f'0{mm}'
+            if len(yy) == 2:
+                yy = f'20{yy}'
+            if mm+yy <= m+y:
+                continue
+            values = f'{cc}|{mm}|{yy}|{cvv}\n'
+            regex = re.compile(r'((?:(^(4|5|6)[0-9]{15,15})|(^3[0-9]{14,14}))\|[0-9]{1,2}\|[0-9]{2,4}\|[0-9]{3,4})')
+            if regex.match(values):
+                LIST.append(values)
+        except:
+            pass
+
+    for parsed in LIST:
+        with io.open(f'{target}.txt', 'a') as f:
+            f.write(parsed)
+    await Ubot.send_file(event.peer_id,
+                         f'{target}.txt', 
+                         caption=f'**CC Scrapper\nTarget: {target}\nNo. of cards after cleanup: {len(LIST)}\nUserBotBy-» @Xbinner2**',
+                         force_document=True)
+    os.remove(f'{target}.txt')
+
+
 @Ubot.on(events.NewMessage(pattern=r'\.scrape'))
 async def scrapper(event):
     # use .scrape [channel_id or username] 100
