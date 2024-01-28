@@ -128,7 +128,7 @@ async def check_incoming_messages(event):
     m = event.message.message
     if m.startswith(tuple(prefixes)) or len(m) < 25 or event.is_private or len(m) > 600:
         return
-    if "already dropped" in m:
+    if "already" in m:
         return
     is_cc = False
     if entities:
