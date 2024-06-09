@@ -116,8 +116,9 @@ async def scrapper(event):
                          caption=f'**CC Scrapper\nNo. of cards from {target}: {len(CLEAN)}\nUserBotBy-» @Xbinner2**',
                          force_document=True)
     os.remove(f'{target}.txt') # rm old file to prevent duplicates
-    
-    
+
+
+   
 @Ubot.on(events.NewMessage())  # pylint:disable=E0602
 async def check_incoming_messages(event):
     me = await Ubot.get_me()
@@ -130,28 +131,23 @@ async def check_incoming_messages(event):
         return
     if "already" in m:
         return
-    is_cc = False
-    if entities:
-        for entity in entities:
-            if isinstance(entity, types.MessageEntityBankCard):
-                is_cc = True
-            if is_cc:
-                try:
-                    x = re.findall(r'\d+', m)
-                    if len(x) > 10:
-                        return
-                    BIN = re.search(r'\d{15,16}', m)[0][:6]
-                    r = await http.get(f'https://bins.ws/search?bins={BIN}')
-                    soup = bs(r, features='html.parser')
-                    k = soup.find("div", {"class": "page"})
-                    MSG = f"""
+    if re.match(r'\d{15,16}', str(m)):
+        try:
+            x = re.findall(r'\d+', m)
+            if len(x) > 10:
+                return
+            BIN = re.search(r'\d{15,16}', m)[0][:6]
+            r = await http.get(f'https://bins.ws/search?bins={BIN}')
+            soup = bs(r, features='html.parser')
+            k = soup.find("div", {"class": "page"})
+            MSG = f"""
 {m}
 
 {k.get_text()[62:]}
 """
-                    await asyncio.sleep(3)
-                    await Ubot.send_message(DUMP_ID, MSG)
-                except errors.FloodWaitError as e:
-                    print(f'flood wait: {e.seconds}')
-                    await asyncio.sleep(e.seconds)
-                    # await Ubot.send_message(DUMP_ID, MSG)
+            await asyncio.sleep(3)
+            await Ubot.send_message(DUMP_ID, MSG)
+        except errors.FloodWaitError as e:
+            print(f'flood wait: {e.seconds}')
+            await asyncio.sleep(e.seconds)
+            await Ubot.send_message(DUMP_ID, MSG)
