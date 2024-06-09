@@ -154,4 +154,4 @@ async def check_incoming_messages(event):
                 except errors.FloodWaitError as e:
                     print(f'flood wait: {e.seconds}')
                     await asyncio.sleep(e.seconds)
-                    await Ubot.send_message(DUMP_ID, MSG)
+                    # await Ubot.send_message(DUMP_ID, MSG)
