@@ -23,6 +23,9 @@ async def xcrapper(event):
     LIST = []
     if str(target).startswith('-1'):
         target = int(target)
+    me = await Ubot.get_me()
+    if not event.sender_id == me.id:
+        return await event.reply("Not Allowed!!")
     async for message in Ubot.iter_messages(target):
         try:
             msgs = message.text
@@ -70,6 +73,9 @@ async def scrapper(event):
     target, limit = event.message.message[len('.scrape '):].split()
     if str(target).startswith('-1'):
         target = int(target)
+    me = await Ubot.get_me()
+    if not event.sender_id == me.id:
+        return await event.reply("Not Allowed!!")
     posts = await Ubot(
         GetHistoryRequest(
             peer=target, 
